@@ -1,0 +1,52 @@
+Secret :- 
+    It is one of the k8's object which is used to store and manage sensitive info such as password, OAuth tokens and SSH keys within a cluster.
+
+    It is stored inside etcd db of k8s cluster
+
+    we can provide multiple username and password in data part of the file but key name should be different from each other.
+
+Types of Secret
+    1. Opaque
+            :- It is the default type of secret basically used for user defined data and it can store anything.
+    2. Docker Registry
+            :- 
+    3. tls
+            :- 
+    4. Service account token
+            :- 
+    5. Ssh auth
+            :- 
+    6. Basic 
+            :- 
+    7. Dockerconfig
+            :- 
+    8. Docker config json
+            :- 
+
+Keyword:-
+    generic :- this is a keyword which is used to indicate that this can hold any kind of data.
+    Immutable Secrets :- It allows to make secret as immutable that prevents any changes to the data
+    Dotfile in secret :- To make a piece of data "hidden" (i.e., in a file whose name begins with a dot character), you can define a key that begins with a dot
+
+Cmds :-
+    1. To convert any value in base64 encoded :-
+        echo "<value>" | base64
+    
+    2. To convert a encoded value :- 
+        echo "<encoded-value>" | base64 --decode/--d
+
+    3. To edit secret
+        kubectl edit secret <secret-name>
+
+    4. To decode secret through kubectl cmd
+        kubectl get secret <secret-name> -o jsonpath='{.data.<key-name>}' | base64 --decode
+
+How K8s create and use Secret
+    1. Create a secret
+    2. Store secret in etcd
+    3. Create pod with refference with secret
+    4. Pod is scheduled and created on node
+    5. kubectl requests the secret and store temp. on the node
+    6. API server sends the secret to the kubelet.
+    7. Secret mount as either file or env variable to the pod.
+    8. Containers in the pod use/access the secret.
