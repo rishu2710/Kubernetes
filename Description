@@ -13,7 +13,7 @@ Types of Secret
     3. tls
             :- 
     4. Service account token
-            :- 
+            :- This is used to provide long-lived Service Account credentials to pods  
     5. Ssh auth
             :- 
     6. Basic 
@@ -27,6 +27,7 @@ Keyword:-
     generic :- this is a keyword which is used to indicate that this can hold any kind of data.
     Immutable Secrets :- It allows to make secret as immutable that prevents any changes to the data
     Dotfile in secret :- To make a piece of data "hidden" (i.e., in a file whose name begins with a dot character), you can define a key that begins with a dot
+    Service Account :- A Service Account in Kubernetes is a special type of account designed to enable applications, workloads, or services running in Pods to interact with the Kubernetes API securely. It provides an identity to the application, allowing it to perform operations like listing resources, updating objects, or accessing secrets, based on defined permissions.
 
 Cmds :-
     1. To convert any value in base64 encoded :-
