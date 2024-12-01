@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: binary-config
+data:
+  example.bin: |
+    <Base64-encoded data from example.bin.b64>

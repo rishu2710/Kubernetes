@@ -1,0 +1,24 @@
+Config Map :- 
+    It is one of the k8's object which is used to store and manage data which are not sensitive within a cluster.
+
+    It is stored inside etcd db of k8s cluster
+
+    we can provide multiple key and value in data part of the file but key name should be different from each other.
+
+    If a ConfigMap is mounted as a volume, the content is stored temporarily on the node's file system in the location where the container accesses it
+
+Config maps can be used in varios ways :-
+        1. key-value pair
+        2. confiration file
+                So when we create like this it got stored in etcd but when we mentioned this in pod, it is mentioned as volumes which got stored as files inside the containers (/etc/config/config-name)
+                It support .properties, .json, or .yaml types 
+        3. Command line Argument
+        4. Voulme mounts
+        5. Binary Data  
+                this will be avl in /etc/binary/ directory in pod.
+                involves encoding the binary data (like a .zip, .png, or other binary files) into Base64 format before adding it to the ConfigMap
+                suppose we have one 
+                example.bin binary file
+                base64 example.bin > example.bin.b64            enoading in base 64
+
+

@@ -16,3 +16,6 @@ Folder Structure :-
             12. dot file secret
             13. multiple data in one secret
             14. Image how secret is created and being fetched from etcd and used by pod
+
+      - K8s Config Map  (https://komodor.com/learn/kubernetes-configmap-the-basics-and-a-quick-tutorial/)
+            1. Description

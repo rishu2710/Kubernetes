@@ -1,0 +1,151 @@
+1. As Env 
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mycontainer
+    image: myimage
+    env:
+    - name: USERNAME
+      valueFrom:
+        configMapRef:
+          name: my-config
+          key: key1
+
+---
+
+2. As configration file
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app-container
+        image: nginx:latest  # Replace with your application image
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config  # Mounts the ConfigMap at /etc/config
+          readOnly: true
+      volumes:
+      - name: config-volume
+        configMap:
+          name: app-config  # References the ConfigMap
+
+########### in place of volumes we cal also give as env
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app-container
+        image: nginx:latest  # Replace with your application image
+        ports:
+        - containerPort: 8080
+        env:
+        - name: FEATURE_X_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: app.properties
+        - name: DB_USERNAME
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: database-config.properties
+
+---
+
+# using as cmd line argument
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: app-container
+        image: nginx:latest  # Replace with your application image
+        command: ["/bin/sh", "-c"]
+        args:
+        - |
+          echo "Starting application with the following settings:" &&
+          echo "Log Level: $(LOG_LEVEL)" &&
+          echo "Max Connections: $(MAX_CONNECTIONS)" &&
+          # Your application execution command
+          sleep 3600
+        env:
+        - name: LOG_LEVEL
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: log-level
+        - name: MAX_CONNECTIONS
+          valueFrom:
+            configMapKeyRef:
+              name: app-config
+              key: max-connections
+
+---
+# as binary config
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: binary-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: binary-app
+  template:
+    metadata:
+      labels:
+        app: binary-app
+    spec:
+      containers:
+      - name: app-container
+        image: nginx:latest  # Replace with your application image
+        volumeMounts:
+        - name: binary-config-volume
+          mountPath: /etc/binary
+          readOnly: true
+      volumes:
+      - name: binary-config-volume
+        configMap:
+          name: binary-config

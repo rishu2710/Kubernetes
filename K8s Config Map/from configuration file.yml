@@ -1,0 +1,29 @@
+# from configuration file
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  database_url: "jdbc:mysql://localhost:3306/mydb"
+  log_level: "debug"
+  app.properties: |
+    feature.x.enabled=true
+    max.connections=10
+  database-config.properties: |
+    db.username=admin
+    db.password=secret
+
+
+---
+# in config format
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: file-config
+data:
+  config.json: |
+    {
+      "app-name": "MyApp",
+      "log-level": "DEBUG"
+    }

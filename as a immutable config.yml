@@ -1,0 +1,8 @@
+# as a immutable config
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config-immutable
+data:
+  foo: bar
+immutable: true
